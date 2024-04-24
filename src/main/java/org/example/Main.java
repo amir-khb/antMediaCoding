@@ -3,10 +3,7 @@ package org.example;
 import org.bytedeco.ffmpeg.avcodec.AVCodec;
 import org.bytedeco.ffmpeg.avcodec.AVCodecParameters;
 import org.bytedeco.ffmpeg.avcodec.AVPacket;
-import org.bytedeco.ffmpeg.avformat.AVFormatContext;
-import org.bytedeco.ffmpeg.avformat.AVInputFormat;
-import org.bytedeco.ffmpeg.avformat.AVIOContext;
-import org.bytedeco.ffmpeg.avformat.AVStream;
+import org.bytedeco.ffmpeg.avformat.*;
 import org.bytedeco.ffmpeg.global.avcodec;
 import org.bytedeco.ffmpeg.global.avformat;
 import org.bytedeco.javacpp.BytePointer;
@@ -34,21 +31,11 @@ public class Main {
             System.err.println("Error: Couldn't find stream information.");
             return;
         }
-
-        // Open output file
         AVFormatContext outputFormatContext = new AVFormatContext(null);
-        if (avformat_alloc_output_context2(outputFormatContext, null, null, outputPath) < 0) {
-            System.err.println("Error: Couldn't create output context.");
+        if (avformat_alloc_output_context2(outputFormatContext, null, null, outputPath) != 0) {
+            System.err.println("Error: Couldn't open file.");
             return;
         }
-
-        // Find encoder for MP4 format
-        AVCodec mp4Codec = avcodec_find_encoder(AV_CODEC_ID_MPEG4);;
-        if (mp4Codec == null) {
-            System.err.println("Error: Codec not found.");
-            return;
-        }
-        System.out.println("Codec: " + mp4Codec.long_name().getString());
 
 
         for (int i = 0; i < inputFormatContext.nb_streams(); i++) {
@@ -56,12 +43,30 @@ public class Main {
             AVCodecParameters codecParams = stream.codecpar();
             AVCodec codec = avcodec.avcodec_find_decoder(codecParams.codec_id());
 
+
+            AVStream outputStream = avformat_new_stream(outputFormatContext, null);
+            if (outputStream == null) {
+                System.err.println("Error: Couldn't create output stream.");
+                return;
+            }
+            avcodec_parameters_copy(outputStream.codecpar(), stream.codecpar());
+            outputStream.codecpar().codec_tag(0); // Avoid forcing a codec
+            if (stream.codecpar().codec_type() == AVMEDIA_TYPE_VIDEO
+                    && stream.codecpar().codec_id() == AV_CODEC_ID_FLV1) {
+                outputStream.codecpar().codec_id(AV_CODEC_ID_MPEG4);
+            }
+
             System.out.println("Stream #" + i);
             System.out.println("  Codec Name: " + codec.long_name().getString());
             System.out.println("  Codec Type: " + codecParams.codec_type());
             // Add more information as needed
-        }
 
+            AVCodecParameters codecParams2 = outputStream.codecpar();
+            AVCodec codec2 = avcodec.avcodec_find_decoder(codecParams2.codec_id());
+            System.out.println("Output Stream #" + i);
+            System.out.println("  Codec Name: " + codec2.long_name().getString());
+            System.out.println("  Codec Type: " + codecParams2.codec_type());
+        }
 
         // Read and process the packets (replace this with your desired logic)
         AVPacket packet = new AVPacket();
@@ -73,7 +78,6 @@ public class Main {
         }
 
         avformat_close_input(inputFormatContext);
-
 
     }
 }
