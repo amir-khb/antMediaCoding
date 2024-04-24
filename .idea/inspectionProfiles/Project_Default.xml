@@ -1,0 +1,8 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="AutoCloseableResource" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="METHOD_MATCHER_CONFIG" value="java.util.Formatter,format,java.io.Writer,append,com.google.common.base.Preconditions,checkNotNull,org.hibernate.Session,close,java.io.PrintWriter,printf,java.io.PrintStream,printf,org.bytedeco.ffmpeg.global.avcodec,avcodec_find_encoder|avcodec_find_decoder|avcodec_get_name,org.bytedeco.ffmpeg.global.avutil,av_frame_alloc" />
+    </inspection_tool>
+  </profile>
+</component>
