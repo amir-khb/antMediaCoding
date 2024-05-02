@@ -104,13 +104,6 @@ public class Main { // Declares the main class
                 }
                 outStream.time_base(encoderContext.time_base()); // Set the time base of the output stream
                 streamContexts[i].encoderContext = encoderContext; // Store the encoder context in the stream context
-            } else { // If the stream is not video or audio
-                if (decoderContext.codec_type() == AVMEDIA_TYPE_UNKNOWN) { // If the codec type is unknown
-                    throw new RuntimeException(); // Throw a RuntimeException
-                } else { // If the codec type is neither video nor audio
-                    check(avcodec_parameters_copy(outStream.codecpar(), inStream.codecpar())); // Copy the codec parameters from the input stream to the output stream
-                    outStream.time_base(inStream.time_base()); // Set the time base of the output stream
-                }
             }
         }
         av_dump_format(outputFormatContext, 0, fileName, 1); // Dump the output format information
