@@ -44,7 +44,7 @@ public class Main {
             streamContexts[i] = new Main.StreamContext();
             AVStream stream = inputFormatContext.streams(i);
             AVCodec decoder = avcodec_find_decoder(stream.codecpar().codec_id());
-            if (decoder == null) new RuntimeException("Unexpected decore: " + stream.codecpar().codec_id());
+            if (decoder == null) new RuntimeException("Unexpected decoder: " + stream.codecpar().codec_id());
             AVCodecContext codecContext = avcodec_alloc_context3(decoder);
             check(avcodec_parameters_to_context(codecContext, stream.codecpar()));
             if (codecContext.codec_type() == AVMEDIA_TYPE_VIDEO || codecContext.codec_type() == AVMEDIA_TYPE_AUDIO) {
