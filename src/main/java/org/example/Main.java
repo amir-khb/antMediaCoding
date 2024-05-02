@@ -1,6 +1,8 @@
 package org.example;
 
-import org.bytedeco.javacpp.*;
+
+import org.bytedeco.javacpp.BytePointer;
+import org.bytedeco.javacpp.PointerPointer;
 
 import java.io.IOException;
 
@@ -260,11 +262,22 @@ public class Main { // Declares the main class
 
     public static void main(String[] args) throws IOException {
 
+//        if (args.length < 2) {
+//            System.err.println("Usage: program <input_file> <output_file>");
+//            System.exit(1);
+//        }
+
         av_register_all();
         avfilter_register_all();
 
-        openInput("C:\\Users\\amirkhb\\IdeaProjects\\javacpp-ffmpeg-example_Amir\\src\\main\\java\\hullarb\\examlpes\\ffmpeg\\a.flv");
-        openOutput("C:\\Users\\amirkhb\\IdeaProjects\\javacpp-ffmpeg-example_Amir\\src\\main\\java\\hullarb\\examlpes\\ffmpeg\\d.mp4");
+        openInput("C:\\Users\\amirkhb\\IdeaProjects\\antMediaCoding\\src\\main\\java\\org\\example\\input.flv");
+        openOutput("C:\\Users\\amirkhb\\IdeaProjects\\antMediaCoding\\src\\main\\java\\org\\example\\output.mp4");
+//        String inputFile = args[0];
+//        String outputFile = args[1];
+//
+//        openInput(inputFile);
+//        openOutput(outputFile);
+
         initFilters();
         try {
             int[] gotFrame = new int[1]; // Array to hold the "got frame" flag
@@ -330,4 +343,3 @@ public class Main { // Declares the main class
         }
     }
 }
-
