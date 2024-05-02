@@ -36,6 +36,7 @@ import org.bytedeco.javacpp.avformat.AVInputFormat;
 import org.bytedeco.javacpp.avformat.AVOutputFormat;
 import org.bytedeco.javacpp.avformat.AVStream;
 import org.bytedeco.javacpp.avutil.AVDictionary;
+import org.example.LoaderA;
 
 /**
  * Created by gilmour on 10.12.2017.
@@ -46,13 +47,13 @@ public class Main {
 
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
-//    static {
-//        try {
-//            FFmpegLibLoader.tryLoad();
-//        } catch (FFmpegLibLoader.Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    static {
+        try {
+            LoaderA.tryLoad();
+        } catch (LoaderA.Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) throws Exception {
 
@@ -66,8 +67,8 @@ public class Main {
         int stream_index = 0;
         int stream_mapping_size = 0;
 
-        String in_filename = "C:\\Users\\amirkhb\\IdeaProjects\\antMediaCoding\\src\\main\\java\\org\\example\\a.mp4";
-        String out_filename = "C:\\Users\\amirkhb\\IdeaProjects\\antMediaCoding\\src\\main\\java\\org\\example\\b.mp4";
+        String in_filename = "C:\\Users\\amirkhb\\IdeaProjects\\antMediaCoding\\src\\main\\java\\org\\example\\input.flv";
+        String out_filename = "C:\\Users\\amirkhb\\IdeaProjects\\antMediaCoding\\src\\main\\java\\org\\example\\output.mp4";
 
         AVInputFormat avInputFormat = new AVInputFormat(null);
         AVDictionary avDictionary = new AVDictionary(null);
